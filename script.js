@@ -1,49 +1,69 @@
-const prev = document.getElementById("prev");
-const next = document.getElementById("next");
-const progress = document.getElementById("progress"); // Assuming you want to use this for the progress line
-const circles = document.querySelectorAll(".circle");
+// Person class definition
+class Person {
+  private _name: string;
+  private _age: number;
 
-let currentActive = 1;
+  // Constructor to initialize name and age
+  constructor(name: string, age: number) {
+    this._name = name;
+    this._age = age;
+  }
 
-next.addEventListener("click", () => {
-    currentActive++;
-    if(currentActive > circles.length){
-        currentActive = circles.length;
-    }
-    render();
-});
+  // Getter for name
+  get name(): string {
+    return this._name;
+  }
 
-prev.addEventListener("click", () => {
-    currentActive--;
-    if(currentActive < 1){
-        currentActive = 1;
-    }
-    render();
-});
+  // Getter for age
+  get age(): number {
+    return this._age;
+  }
 
-function render() {
-    circles.forEach((circle, idx) => {
-        if(idx < currentActive){
-            circle.classList.add("active");
-        } else {
-            circle.classList.remove("active");
-        }
-    });
-
-    // Handle enabling/disabling of buttons
-    if(currentActive == 1){
-        prev.disabled = true;
-    } else {
-        prev.disabled = false;
-    }
-
-    if(currentActive == circles.length){
-        next.disabled = true;
-    } else {
-        next.disabled = false;
-    }
-
-    // Update the progress line
-    const progressWidth = (currentActive - 1) / (circles.length - 1) * 100; // Calculate the width of the progress line
-    progress.style.width = `${progressWidth}%`; // Update the width of the progress line
+  // Setter for age
+  set age(age: number) {
+    this._age = age;
+  }
 }
+
+// Student class that inherits from Person
+class Student extends Person {
+  // Constructor that passes name and age to the Person constructor
+  constructor(name: string, age: number) {
+    super(name, age);
+  }
+
+  // Method to simulate studying
+  study(): void {
+    console.log(`${this.name} is studying`);
+  }
+}
+
+// Teacher class that inherits from Person
+class Teacher extends Person {
+  // Constructor that passes name and age to the Person constructor
+  constructor(name: string, age: number) {
+    super(name, age);
+  }
+
+  // Method to simulate teaching
+  teach(): void {
+    console.log(`${this.name} is teaching`);
+  }
+}
+
+// Example usage:
+
+// Creating a Person instance
+const person = new Person("John", 25);
+console.log(person.name);  // Output: John
+
+person.age = 30;  // Using the setter to change the age
+console.log(person.age);  // Output: 30
+
+// Creating a Student instance
+const student = new Student("Alice", 22);
+student.study();  // Output: Alice is studying
+
+// Creating a Teacher instance
+const teacher = new Teacher("Bob", 40);
+teacher.teach();  // Output: Bob is teaching
